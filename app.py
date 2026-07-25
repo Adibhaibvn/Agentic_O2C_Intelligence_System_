@@ -88,7 +88,7 @@ if df is not None:
         preview_df = group_df[['case_id', 'order_value', 'processing_days', 'has_manual_review']].copy()
         preview_df['Status'] = preview_df['has_manual_review'].apply(lambda x: "⛔ Review" if (x==1 or str(x).upper()=='TRUE') else "✅ Low Risk")
         
-        selection = st.dataframe(preview_df.head(100), use_container_width=True, hide_index=True, height=250, on_select="rerun", selection_mode="single-row")
+        selection = st.dataframe(preview_df.head(100), width='stretch', hide_index=True, height=250, on_select="rerun", selection_mode="single-row")
         
         if len(selection.selection.rows) > 0:
             selected_case_id = preview_df.iloc[selection.selection.rows[0]]['case_id']
@@ -104,7 +104,7 @@ if df is not None:
             
             with col_proc:
                 st.markdown("#### 📍 Process Sequence Map")
-                st.graphviz_chart(draw_process_graph(is_actual_risk), use_container_width=True)
+                st.graphviz_chart(draw_process_graph(is_actual_risk), width='stretch')
                 
                 st.markdown("#### 📦 Shipment Metadata")
                 m1, m2, m3, m4 = st.columns(4)
@@ -147,7 +147,7 @@ if df is not None:
         variant_stats['Avg Order Value ($)'] = variant_stats['Avg Order Value ($)'].round(0)
         variant_stats['Manual Review %'] = variant_stats['Manual Review %'].round(1)
         
-        st.dataframe(variant_stats.sort_values(by='Manual Review %', ascending=False).style.background_gradient(subset=['Avg Time (Days)'], cmap='RdPu'), use_container_width=True)
+        st.dataframe(variant_stats.sort_values(by='Manual Review %', ascending=False).style.background_gradient(subset=['Avg Time (Days)'], cmap='RdPu'), width='stretch')
         
         col_select, col_kpi = st.columns([1, 3])
         with col_select:
@@ -208,7 +208,7 @@ if df is not None:
                 with c_sub4: mode_in = st.selectbox("Logistics Mode", encoders['shipping_mode'].classes_, index=1)
 
             # This button pauses Streamlit until clicked
-            run_btn = st.form_submit_button("🚀 Run Prescriptive AI Analysis")
+            run_btn = st.form_submit_button("🚀 Run Prescriptive AI Analysis", width='stretch')
 
         # 2. ONLY EXECUTE THE ML AND AI IF THE BUTTON IS CLICKED
         if run_btn:
@@ -305,7 +305,7 @@ if df is not None:
         
         report_selection = st.dataframe(
             report_df.head(100), 
-            use_container_width=True, hide_index=True, height=250, 
+            width='stretch', hide_index=True, height=250, 
             on_select="rerun", selection_mode="single-row"
         )
 
